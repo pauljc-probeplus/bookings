@@ -23,6 +23,9 @@
           color: red;
 
         }
+        .datepicker{
+          z-index: 20000;
+        }
     </style>
 
 </head>
@@ -145,11 +148,11 @@
     <script>
       let attention=Prompt();
       
-          (() => {
-      'use strict'
+      (() => {
+        'use strict'
 
-      // Fetch all the forms we want to apply custom Bootstrap validation styles to
-      const forms = document.querySelectorAll('.needs-validation')
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
 
       // Loop over them and prevent submission
       Array.from(forms).forEach(form => {
@@ -173,7 +176,23 @@
       document.getElementById("colorButton").addEventListener("click",function(){
         //notify("error","Success Message")
         //notifyModal("title","<em>hello, world</em>","success","my text")
-        attention.error({msg:"hello,world!"});
+        let htmlText = 
+        `<form id="check-availibility-form" action="" method="post" novalidate class="needs-validation">
+          <div class="row-g-3">
+            <div class="col">
+              <div class="row" id="reservation-dates-modal">
+                <div class="col">
+                  <input disabled required class="form-control" type="text" name="start" id="start" placeholder="Arrival"/>
+                </div>
+                <div class="col">
+                  <input disabled required class="form-control" type="text" name="end" id="end" placeholder="Departure"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>`;
+        
+        attention.custom({msg:htmlText,title:"Choose your dates"});
       })
 
 
@@ -251,10 +270,49 @@
           });
         }
 
+      async function custom(c){
+        const{
+          msg="",
+          title="",
+        }=c;
+      
+      
+      const { value: formValues } = await Swal.fire({
+        title: title,
+        html:  msg,
+        backdrop:false,
+        focusConfirm: false,
+        showCancelButton:true,
+        willOpen:()=>{
+          const elem = document.getElementById("reservation-dates-modal");
+          const rp = new DateRangePicker(elem, {
+            format:'yyyy-mm-dd',
+            showOnFocus: true,
+            container:document.body,
+          })
+        },
+        preConfirm: () => {
+          return [
+            document.getElementById("start").value,
+            document.getElementById("end").value
+          ];
+        },
+        didOpen: () => {
+          document.getElementById('start').removeAttribute('disabled');
+          document.getElementById('end').removeAttribute('disabled');
+        }
+      });
+      if (formValues) {
+        Swal.fire(JSON.stringify(formValues));
+      }
+    }
+
+
         return{
           toast:toast,
           success:success,
-          error:error
+          error:error,
+          custom:custom,
         }
       }
 
