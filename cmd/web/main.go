@@ -7,9 +7,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/pauljc-probeplus/bookings/pkg/config"
-	"github.com/pauljc-probeplus/bookings/pkg/handlers"
-	"github.com/pauljc-probeplus/bookings/pkg/render"
+	"github.com/pauljc-probeplus/bookings/internal/config"
+	"github.com/pauljc-probeplus/bookings/internal/handlers"
+	"github.com/pauljc-probeplus/bookings/internal/render"
 	"github.com/alexedwards/scs/v2"
 )
 

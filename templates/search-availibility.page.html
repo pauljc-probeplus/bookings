@@ -1,0 +1,54 @@
+{{template "base" .}}
+{{define "content"}}
+<div class="container mt-4">
+    <div class="row">
+      <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <div class="col">
+              <h1>Search for Availibility</h1>
+              <form action="/search-availibility" method="post" novalidate class="needs-validation">
+
+                <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+
+                <div class="row g-3">
+                  
+                  <div class="col md-6">
+                    
+                    <div class="row" id="reservation-dates">
+
+                      <div class="col">
+                        <input required class="form-control" type="text" name="start" placeholder="Arrival">
+                      </div>
+
+                      <div class="col">
+                        <input required class="form-control" type="text" name="end" placeholder="Departure">
+                      </div>
+                      
+                    </div>
+                  
+                  </div>
+                
+                </div>
+
+                <br/>
+
+
+
+
+
+                
+                <button type="submit" class="btn btn-primary">Search Availibility</button>
+              </form>
+          </div>
+        </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <p id="myParagraph">This is some text.</p>
+        <p>
+          <button class="btn btn-outline-secondary" id="colorButton" >Click Me</button>
+        </p>
+      </div>
+    </div>
+{{end}}

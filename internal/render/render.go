@@ -57,9 +57,11 @@ package render
 
 import (
 	"bytes"
-	"github.com/pauljc-probeplus/bookings/pkg/config"
+	"github.com/justinas/nosurf"
+	"github.com/pauljc-probeplus/bookings/internal/config"
+
 	//"github.com/pauljc-probeplus/lesson-5/pkg/handlers"
-	"github.com/pauljc-probeplus/bookings/pkg/models"
+	"github.com/pauljc-probeplus/bookings/internal/models"
 	"html/template"
 	"log"
 	"net/http"
@@ -76,12 +78,13 @@ func NewTemplates(a *config.AppConfig){
 }
 
 
-func AddDefaultData(td *models.TemplateData)*models.TemplateData{
+func AddDefaultData(td *models.TemplateData, r *http.Request)*models.TemplateData{
+	td.CSRFToken=nosurf.Token(r)
 	return td
 }
 
 
-func RenderTemplate(w http.ResponseWriter,tmpl string,td *models.TemplateData){
+func RenderTemplate(w http.ResponseWriter,r *http.Request,tmpl string,td *models.TemplateData){
 	//get the template cache from app config
 	var template_cache map[string]*template.Template
 	if app.UseCache{
@@ -98,7 +101,7 @@ func RenderTemplate(w http.ResponseWriter,tmpl string,td *models.TemplateData){
 	buf:=new(bytes.Buffer)
 
 
-	td=AddDefaultData(td)
+	td=AddDefaultData(td,r)
 	_=template.Execute(buf,td)
 	
 	//render the template
