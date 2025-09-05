@@ -155,6 +155,19 @@
         })
       }
 
+      var errorMessage = "Error";
+      var flashMessage = "Flash";
+
+      if (errorMessage) {
+        notify("{{.}}","error")
+      }
+
+      if (flashMessage) {
+        notify("{{.}}","error")
+      }
+
+
+
       function Prompt(){
         let toast = function(c){
           const{
